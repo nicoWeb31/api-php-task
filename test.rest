@@ -1,0 +1,6 @@
+//test response class
+
+get http://localhost/php-api-todo/V1/model/responseTest.php
+
+###
+
