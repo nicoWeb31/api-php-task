@@ -12,3 +12,20 @@ get http://localhost/php-api-todo/V1/controller/test/Dbtest.php
 //test Task php
 get http://localhost/php-api-todo/V1/model/test/taskTest.php
 
+###
+//test Task php
+get http://localhost/php-api-todo/tasks/task/2
+
+###
+//test Task php
+PATCH   http://localhost/php-api-todo/tasks/task/2
+
+###
+//test Task php
+DELETE http://localhost/php-api-todo/tasks/task/2
+
+###
+
+//test Task php
+get http://localhost/php-api-todo/tasks/all
+
