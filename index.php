@@ -1,5 +1,5 @@
 <?php
-require_once("V1/controller/TaskController.php");
+require_once("V1/controller/task/TaskController.php");
 require_once("V1/model/Response.php");
 
 define("URL", str_replace("index.php", "", (isset($_SERVER['HTTPS']) ? "https" : "http") .
@@ -23,37 +23,26 @@ try {
 
                     case "task":
                         if (!isset($url[3])) {
-                            if((int)$url[2] == "" || !is_numeric((int)$url[2])){
-                                $resp = new Response();
-                                $resp->setHttpStatusCode(400)
-                                    ->setSuccess(false)
-                                    ->addMessages("Task ID cannot be blank or must be numeric")
-                                    ->send();
-                                exit;    
-                            }
-                            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                                    echo "toto";
-                                    //todo get method//
-                                
-                            }
 
+                            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                                //call getTask
+                                $apiTaskController->getTask((int)$url[2]);
+
+                            }
                             elseif ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
                                 //$apiTaskController->getTask((int)$url[2]);
                                 echo "toto PATCTCH";
                             }
-
                             elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                                 //$apiTaskController->getTask((int)$url[2]);
                                 echo "toto delete";
-                            }else
-                            
-                            {
+                            }
+                            else {
                                 $resp = new Response();
                                 $resp->setHttpStatusCode(405)
-                                        ->setSuccess(false)
-                                        ->addMessages("Request methode not allowed")
-                                        ->send();
-
+                                    ->setSuccess(false)
+                                    ->addMessages("Request methode not allowed")
+                                    ->send();
                             }
                         }
                         break;

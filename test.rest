@@ -14,11 +14,11 @@ get http://localhost/php-api-todo/V1/model/test/taskTest.php
 
 ###
 //test Task php
-get http://localhost/php-api-todo/tasks/task/2
+get http://localhost/php-api-todo/tasks/task/3
 
 ###
 //test Task php
-PATCH   http://localhost/php-api-todo/tasks/task/2
+PATCH   http://localhost/php-api-todo/tasks/task/1
 
 ###
 //test Task php

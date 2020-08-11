@@ -1,11 +1,19 @@
 <?php
 
-require_once('V1/model/Task.php');
 require_once('V1/controller/AbstractController.php');
+require_once('V1/model/task/TaskManager.php');
 
 class TaskController extends AbstractController
 
 {
+
+
+    private $manager;
+    
+    public function __construct(){
+        $this->manager = new TaskManager();
+    }
+
 
     public function getTask($id)
     {
@@ -17,6 +25,9 @@ class TaskController extends AbstractController
                 ->send();
             exit();    
         }
+        //echo "test Task";
+        $this->manager->getTask($id);
+
     }
 
     public function getTasks()

@@ -1,7 +1,0 @@
-<?php
-
-class AbsractModel 
-{
-
-
-}

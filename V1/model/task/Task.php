@@ -1,11 +1,9 @@
 <?php
 
-require_once "V1/model/AbsractModel.php";
-
 
 class TaskException extends Exception {} 
 
-class Task extends AbsractModel
+class Task 
 {
     private $id;
     private $title;
