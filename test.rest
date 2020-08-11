@@ -1,6 +1,10 @@
 //test response class
 
-get http://localhost/php-api-todo/V1/model/responseTest.php
+get http://localhost/php-api-todo/V1/model/test/responseTest.php
 
 ###
+
+//testconnection bdd
+get http://localhost/php-api-todo/V1/controller/test/Dbtest.php
+
 

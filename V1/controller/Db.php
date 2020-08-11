@@ -19,6 +19,18 @@ class Db
             self::$writeDBConnection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
             self::$writeDBConnection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         }
+        return self::$writeDBConnection;
+
+    }
+
+    public static function connectreadDB(){
+
+        if(self::$readDBConnection === null){
+            self::$readDBConnection = new PDO('mysql:host='.Db::DB_HOST.'; dbname='.Db::DB_NAME, Db::DB_USER, Db::DB_PASSWORD);
+            self::$readDBConnection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            self::$readDBConnection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        }
+        return self::$readDBConnection;
 
     }
 
