@@ -7,4 +7,8 @@ get http://localhost/php-api-todo/V1/model/test/responseTest.php
 //testconnection bdd
 get http://localhost/php-api-todo/V1/controller/test/Dbtest.php
 
+###
+
+//test Task php
+get http://localhost/php-api-todo/V1/model/test/taskTest.php
 

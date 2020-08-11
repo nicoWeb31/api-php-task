@@ -7,7 +7,7 @@ try {
     $writeBb = Db::connectWriteDB();
     $readDB= Db::connectreadDB();
 }
-catch(Exception $e) {
+catch(PDOException $e) {
 $response = new Response();
 $response->setHttpStatusCode(500)
         ->setSuccess(false)
