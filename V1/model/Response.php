@@ -112,5 +112,14 @@ class Response
 
     }
 
+    public static function methodIsNotAllowed(){
+
+        $resp = new Response();
+        $resp->setHttpStatusCode(405)
+            ->setSuccess(false)
+            ->addMessages("Request methode not allowed")
+            ->send();
+    }
+
 
 }

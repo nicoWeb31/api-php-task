@@ -25,33 +25,40 @@ try {
                         if (!isset($url[3])) {
 
                             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                                
-                                $apiTaskController->getTask((int)$url[2]);
 
-                            }
-                            elseif ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
-                                
+                                $apiTaskController->getTask((int)$url[2]);
+                            } elseif ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
+
                                 echo "toto PATCTCH";
-                            }
-                            elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-                                
+                            } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+
                                 $apiTaskController->deleteTask((int)$url[2]);
                                 //echo "toto delete";
-                            }
-                            else {
-                                $resp = new Response();
-                                $resp->setHttpStatusCode(405)
-                                    ->setSuccess(false)
-                                    ->addMessages("Request methode not allowed")
-                                    ->send();
+                            } else {
+                                Response::methodIsNotAllowed();
                             }
                         }
                         break;
 
-                    case "all":
 
-                        // todo method gettasks
-                        echo "toto get task SSS";
+                        //retourne toute les tasks    
+                    case "tasks":
+                        if (!isset($url[2])) {
+                            //to do
+                            echo "all task";
+                        }
+                        //retourne toute les tasks finish '/Y' or not '/N'    
+                        if (!isset($url[3])) {
+                            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                                $apiTaskController->getAllCompleteTask($url[2]);
+                            }else{
+                                Response::methodIsNotAllowed();
+                            }
+                        }
+
+
+
+
                         break;
 
 

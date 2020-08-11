@@ -14,7 +14,7 @@ get http://localhost/php-api-todo/V1/model/test/taskTest.php
 
 ###
 //test Task php
-get http://localhost/php-api-todo/tasks/task/1
+get http://localhost/php-api-todo/tasks/task/4
 
 ###
 //test Task php
@@ -26,6 +26,11 @@ DELETE http://localhost/php-api-todo/tasks/task/17
 
 ###
 
-//test Task php
-get http://localhost/php-api-todo/tasks/all
+//test all tasks 
+get http://localhost/php-api-todo/tasks/tasks
+
+###
+
+//get Task php
+get http://localhost/php-api-todo/tasks/tasks/Y
 

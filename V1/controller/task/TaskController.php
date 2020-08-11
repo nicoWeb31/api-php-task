@@ -36,5 +36,10 @@ class TaskController extends AbstractController
 
     }
 
+    public function getAllCompleteTask($complete){
+        $this->IsYorN($complete);
+        $this->manager->getAllCompleteTask($complete);
+    }
+
 
 }

@@ -73,6 +73,7 @@ class TaskManager extends AbstractManager
         echo "test" . $id;
     }
 
+    //delete task 
     public function deleteTask($id){
         try{
             $query = $this->dbWrite->prepare('DELETE from tbltasks WHERE id = :id');
@@ -104,6 +105,20 @@ class TaskManager extends AbstractManager
                         ->send();
             exit(); 
         }
+    }
+
+
+
+
+    /**
+     * Recuperation de toute les tasks complete
+     *
+     * @return void
+     */
+    public function getAllCompleteTask($complete){
+
+
+        echo "methode {$complete} ok  ";
     }
 
 
