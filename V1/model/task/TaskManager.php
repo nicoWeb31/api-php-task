@@ -73,5 +73,38 @@ class TaskManager extends AbstractManager
         echo "test" . $id;
     }
 
+    public function deleteTask($id){
+        try{
+            $query = $this->dbWrite->prepare('DELETE from tbltasks WHERE id = :id');
+            $query->bindParam(':id', $id, PDO::PARAM_INT);
+            $query->execute();
+
+            $rowCount = $query->rowCount();
+
+            if($rowCount === 0){
+                $this->resp->setHttpStatusCode(404)
+                            ->setSuccess(false)
+                            ->addMessages("Task not found")
+                            ->send();
+                exit();                
+            }
+
+            $this->resp->setHttpStatusCode(200)
+                        ->setSuccess(true)
+                        ->addMessages("task {$id} deleted with success !")
+                        ->send();
+            exit();           
+
+
+        }
+        catch(PDOException $e){
+            $this->resp->setHttpStatusCode(500)
+                        ->setSuccess(false)
+                        ->addMessages("faild to delete task")
+                        ->send();
+            exit(); 
+        }
+    }
+
 
 }

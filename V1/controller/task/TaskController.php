@@ -15,23 +15,24 @@ class TaskController extends AbstractController
     }
 
 
+    
+
     public function getTask($id)
     {
-        if($id == '' || !is_numeric($id)){
-            $res = new Response();
-            $res->setHttpStatusCode(400)
-                ->setSuccess(false)
-                ->addMessages("Task ID cannot be blank or must be numeric")
-                ->send();
-            exit();    
-        }
-        //echo "test Task";
+        
+        $this->idIsNunber($id);
         $this->manager->getTask($id);
 
     }
 
     public function getTasks()
     {
+
+    }
+
+    public function deleteTask($id){
+        $this->idIsNunber($id);
+        $this->manager->deleteTask($id);
 
     }
 

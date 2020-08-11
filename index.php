@@ -25,17 +25,18 @@ try {
                         if (!isset($url[3])) {
 
                             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                                //call getTask
+                                
                                 $apiTaskController->getTask((int)$url[2]);
 
                             }
                             elseif ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
-                                //$apiTaskController->getTask((int)$url[2]);
+                                
                                 echo "toto PATCTCH";
                             }
                             elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-                                //$apiTaskController->getTask((int)$url[2]);
-                                echo "toto delete";
+                                
+                                $apiTaskController->deleteTask((int)$url[2]);
+                                //echo "toto delete";
                             }
                             else {
                                 $resp = new Response();
