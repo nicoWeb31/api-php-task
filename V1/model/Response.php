@@ -172,4 +172,23 @@ class Response
             ->send();
         exit();
     }
+
+
+
+    /**
+     * response 400 error content type
+     * @param string $message
+     * @return void
+     */
+    public static function contentTypeErr($message)
+    {
+        $resp = new Response();
+        $resp->setHttpStatusCode(400)
+            ->setSuccess(false)
+            ->addMessages($message)
+            ->send();
+        exit();
+    }
+
+
 }

@@ -174,7 +174,7 @@ class TaskManager extends AbstractManager
     public function getAllTaskWhitPagi($pagnumber)
     {
 
-        $limitPerPage = 2;
+        $limitPerPage = 15;
 
         try {
             $query = $this->dbRead->prepare('SELECT count(id) as totalNoOfTasks from tbltasks');
@@ -214,7 +214,7 @@ class TaskManager extends AbstractManager
             ($pagnumber < $numOfPages ? $returnData['has_a_next_page'] = true : $returnData['has_a_next_page'] = false);
             ($pagnumber > 1 ? $returnData['has_a_previous_page'] = true : $returnData['has_a_previous_page'] = false);
 
-            
+
 
 
             $returnData['tasks'] = $taskArray;
@@ -225,6 +225,77 @@ class TaskManager extends AbstractManager
         } catch (PDOException $e) {
             error_log("database query error - " . $e, 0);
             $this->resp->statutFiveZeroZero("failed to get tasks");
+        }
+    }
+
+
+    /**
+     * creation d'une task
+     *
+     * @return void
+     */
+    public function createTask($title,$description,$deadline,$complete)
+    {
+
+        try {
+            
+            $query = $this->dbWrite->prepare('insert into tbltasks (title,description,deadline,complited) 
+            values (:title,:desc, STR_TO_DATE(:deadline,\'%d/%m/%Y %H:%i\'), :completed)');
+
+            $query->bindParam(':title', $title, PDO::PARAM_STR);
+            $query->bindParam(':desc', $description, PDO::PARAM_STR);
+            $query->bindParam(':deadline', $deadline, PDO::PARAM_STR);
+            $query->bindParam(':completed', $complete, PDO::PARAM_STR);
+
+            $query->execute();
+
+            $rowCount = $query->rowCount();
+            if($rowCount === 0 ){
+                $this->resp->statutFiveZeroZero("failed to create tasks");
+            }
+
+            $lastTaskId = $this->dbWrite->lastInsertId();
+
+            $query = $this->dbWrite->prepare('SELECT id, title,description,DATE_FORMAT(deadline,"%d/%m/%Y %H:%i") as deadline,complited
+            FROM tbltasks
+            WHERE id = :id
+            ');
+
+            $query->bindParam(':id', $lastTaskId, PDO::PARAM_INT);
+            $query->execute();
+
+            $rowCount = $query->rowCount();
+            if($rowCount === 0 ){
+                $this->resp->statutFiveZeroZero("failed to retrieve task after creation");
+            }
+
+
+
+            $taskArray = [];
+            while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                $task = new Task($row['id'], $row['title'], $row['description'], $row['deadline'], $row['complited']);
+                $taskArray[] = $task->returnTaskArray();
+            }
+
+            $returnData = [];
+            $returnData['rows_returned'] = $rowCount;
+            $returnData['tasks'] = $taskArray;
+
+            $resp = new Response();
+            $resp->setHttpStatusCode(201)
+            ->setSuccess(true)
+            ->addMessages("Task created")
+            ->setData($returnData)
+            ->send();
+            exit();
+
+
+
+        } catch (TaskException $e) {
+            $this->resp->statutFiveZeroZero($e->getMessage());
+        } catch (PDOException $e) {
+            error_log("database query error - " . $e, 0);
+            $this->resp->statutFiveZeroZero("failed to create tasks");
         }
     }
 }

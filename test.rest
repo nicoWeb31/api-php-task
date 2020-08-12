@@ -39,3 +39,16 @@ get http://localhost/php-api-todo/tasks/tasks/N
 //get Task all with pagination
 GET   http://localhost/php-api-todo/tasks/tasks/page/2
 
+###
+
+//Post Create a new task
+POST   http://localhost/php-api-todo/tasks/tasks
+Content-Type: application/json
+
+{
+    "title": "new title",
+    "description" : "toto descr",
+    "deadline" : "01/01/2019 17:00",
+    "complited":"Y"
+}
+

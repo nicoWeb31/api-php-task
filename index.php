@@ -48,7 +48,8 @@ try {
                             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                 $apiTaskController->getAllTasks();
                             } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                                //to do create post
+                                if($_SERVER['CONTENT_TYPE'] !== 'application/json')Response::contentTypeErr("Content type header is not set to JSON");
+                                $apiTaskController->createTask();
                             } else {
                                 Response::methodIsNotAllowed();
                             }
