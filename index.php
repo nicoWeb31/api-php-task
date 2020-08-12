@@ -16,6 +16,7 @@ try {
     } else {
         $url = explode("/", filter_var($_GET['page'], FILTER_SANITIZE_URL));
         if (empty($url[0]) || empty($url[1])) throw new Exception("La page n'existe pas");
+        //var_dump($url);
         switch ($url[0]) {
 
             case "tasks":
@@ -44,20 +45,22 @@ try {
                         //retourne toute les tasks    
                     case "tasks":
                         if (!isset($url[2])) {
-                            //to do
-                            echo "all task";
-                        }
-                        //retourne toute les tasks finish '/Y' or not '/N'    
-                        if (!isset($url[3])) {
                             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                                $apiTaskController->getAllCompleteTask($url[2]);
-                            }else{
+                                $apiTaskController->getAllTasks();
+                            } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                //to do create post
+                            } else {
                                 Response::methodIsNotAllowed();
                             }
                         }
-
-
-
+                        //retourne toute les tasks finish '/Y' or not '/N'    
+                        elseif (!isset($url[3])) {
+                            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                                $apiTaskController->getAllCompleteTask($url[2]);
+                            } else {
+                                Response::methodIsNotAllowed();
+                            }
+                        }
 
                         break;
 

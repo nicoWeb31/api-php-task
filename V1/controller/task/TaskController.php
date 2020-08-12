@@ -25,17 +25,38 @@ class TaskController extends AbstractController
 
     }
 
-    public function getTasks()
-    {
 
+    /**
+     * recupere all task
+     *
+     * @return void
+     */
+    public function getAllTasks()
+    {
+        $this->manager->getAllTask();
     }
 
+
+
+    /**
+     * Undocumented function
+     *
+     * @param int $id
+     * @return void
+     */
     public function deleteTask($id){
         $this->idIsNunber($id);
         $this->manager->deleteTask($id);
 
     }
 
+
+    /**
+     * fetch all tash by complete Y or N
+     *
+     * @param string $complete
+     * @return void
+     */
     public function getAllCompleteTask($complete){
         $this->IsYorN($complete);
         $this->manager->getAllCompleteTask($complete);

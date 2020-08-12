@@ -31,6 +31,6 @@ get http://localhost/php-api-todo/tasks/tasks
 
 ###
 
-//get Task php
-get http://localhost/php-api-todo/tasks/tasks/Y
+//get Task all complite or imcomplete
+get http://localhost/php-api-todo/tasks/tasks/N
 
