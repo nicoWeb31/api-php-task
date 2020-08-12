@@ -140,9 +140,10 @@ class TaskManager extends AbstractManager
      *
      * @return void
      */
-    public function getAllTask(){
+    public function getAllTask()
+    {
 
-        try{
+        try {
             $query = $this->dbRead->prepare('SELECT id,title,description,DATE_FORMAT(deadline,"%d/%m/%Y %H:%i") as deadline,complited from tbltasks');
             $query->execute();
             $rowCount = $query->rowCount();
@@ -157,18 +158,73 @@ class TaskManager extends AbstractManager
             $returnData['tasks'] = $taskArray;
 
             $this->resp->statutTowZeroToCacheOK($returnData);
-
-        }
-        catch(TaskException $e){
+        } catch (TaskException $e) {
             $this->resp->statutFiveZeroZero($e->getMessage());
-        }
-        catch(PDOException $e){
+        } catch (PDOException $e) {
             error_log("database query error - " . $e, 0);
             $this->resp->statutFiveZeroZero("failed to get tasks");
         }
+    }
+
+    /**
+     * recupere toute les tasks avec pagination de 20 pages
+     *
+     * @return void
+     */
+    public function getAllTaskWhitPagi($pagnumber)
+    {
+
+        $limitPerPage = 2;
+
+        try {
+            $query = $this->dbRead->prepare('SELECT count(id) as totalNoOfTasks from tbltasks');
+            $query->execute();
+            $row = $query->fetch(PDO::FETCH_ASSOC);
+            $taskCount = intval($row['totalNoOfTasks']);
+
+            $numOfPages = ceil($taskCount / $limitPerPage);
+            if ($numOfPages == 0) $numOfPages = 1;
+            if ($pagnumber > $numOfPages || $numOfPages == 0) Response::statutNotFound("pages doesn't {$pagnumber} exist");
 
 
+            //start to :
+            $offset = ($pagnumber == 1 ? 0 : ($limitPerPage * ($pagnumber - 1)));
+
+            $queryD = $this->dbRead->prepare('SELECT id,title,description,DATE_FORMAT(deadline,"%d/%m/%Y %H:%i") as deadline,complited 
+            from tbltasks
+            LIMIT :limitTask
+            offset :offset
+            ');
+
+            $queryD->bindParam(':limitTask', $limitPerPage, PDO::PARAM_INT);
+            $queryD->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+            $queryD->execute();
+            $rowCount = $query->rowCount();
+
+            $taskArray = [];
+            while ($row = $queryD->fetch(PDO::FETCH_ASSOC)) {
+                $task = new Task($row['id'], $row['title'], $row['description'], $row['deadline'], $row['complited']);
+                $taskArray[] = $task->returnTaskArray();
+            }
+            $returnData = [];
+            $returnData['Total_rows'] = $taskCount;
+            $returnData['rows_returned'] = $rowCount;
+            $returnData['Total_pages'] = $numOfPages;
+            ($pagnumber < $numOfPages ? $returnData['has_a_next_page'] = true : $returnData['has_a_next_page'] = false);
+            ($pagnumber > 1 ? $returnData['has_a_previous_page'] = true : $returnData['has_a_previous_page'] = false);
+
+            
 
 
+            $returnData['tasks'] = $taskArray;
+
+            $this->resp->statutTowZeroToCacheOK($returnData);
+        } catch (TaskException $e) {
+            $this->resp->statutFiveZeroZero($e->getMessage());
+        } catch (PDOException $e) {
+            error_log("database query error - " . $e, 0);
+            $this->resp->statutFiveZeroZero("failed to get tasks");
+        }
     }
 }

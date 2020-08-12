@@ -53,6 +53,7 @@ try {
                                 Response::methodIsNotAllowed();
                             }
                         }
+                        
                         //retourne toute les tasks finish '/Y' or not '/N'    
                         elseif (!isset($url[3])) {
                             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -60,6 +61,18 @@ try {
                             } else {
                                 Response::methodIsNotAllowed();
                             }
+                        }
+                        elseif( $url[2] == "page" && (!isset($url[4]))){
+                            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                            // echo "test page {$url[3]} ";
+                                $apiTaskController->getTaskWithPagination((int)$url[3]);
+                            }else{
+                                Response::methodIsNotAllowed();
+
+                            }
+                        }
+                        else{
+                            Response::statutNotFound("page introuvable");
                         }
 
                         break;

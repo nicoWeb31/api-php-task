@@ -34,3 +34,8 @@ get http://localhost/php-api-todo/tasks/tasks
 //get Task all complite or imcomplete
 get http://localhost/php-api-todo/tasks/tasks/N
 
+###
+
+//get Task all with pagination
+GET   http://localhost/php-api-todo/tasks/tasks/page/2
+

@@ -163,7 +163,7 @@ class Response
      * @param string $message
      * @return void
      */
-    public function statutNotFound($message)
+    public static function statutNotFound($message)
     {
         $resp = new Response();
         $resp->setHttpStatusCode(404)

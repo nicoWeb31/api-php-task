@@ -63,4 +63,16 @@ class TaskController extends AbstractController
     }
 
 
+    
+
+    /**
+     * fetch all tash by complete Y or N
+     *
+     * @param int $PageNumber
+     * @return void
+     */
+    public function getTaskWithPagination($PageNumber){
+        $this->idIsNunber($PageNumber);
+        $this->manager->getAllTaskWhitPagi($PageNumber);
+    }
 }
